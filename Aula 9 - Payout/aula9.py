@@ -5,7 +5,7 @@ import json, sys
 from datetime import datetime, timedelta
 
 
-### CRIANDO ARQUIVO DE CONFIGURAÇÃO ####
+### creando archivo de configuracion ####
 config = ConfigObj('config.txt')
 email = config['LOGIN']['email']
 senha = config['LOGIN']['senha']
@@ -39,7 +39,7 @@ lucro_op_atual = 0
 print('Iniciando Conexão com a IQOption')
 API = IQ_Option(email,senha)
 
-### Função para conectar na IQOPTION ###
+### Funcion para conectar a IQOPTION ###
 check, reason = API.connect()
 if check:
     print('\nConectado com sucesso')
@@ -54,7 +54,7 @@ else:
         print(reason)
         sys.exit()
 
-### Função para Selecionar demo ou real ###
+### Funcion para Selecionar demo o real ###
 while True:
     escolha = input('\nSelecione a conta em que deseja conectar: demo ou real  - ')
     if escolha == 'demo':
@@ -70,7 +70,7 @@ while True:
         
 API.change_balance(conta)
 
-### Função para checar stop win e loss
+### Funcion para chequear stop win y loss
 def check_stop():
     global stop,lucro_total
     if lucro_total <= float('-'+str(abs(stop_loss))):
@@ -120,7 +120,7 @@ def payout(par):
 
     return binary, turbo, digital
 
-### Função abrir ordem e checar resultado ###
+### Funcion abrir orden y checar resultado ###
 def compra(ativo,valor_entrada,direcao,exp,tipo):
     global stop,lucro_total, nivel_soros, niveis_soros, valor_soros, lucro_op_atual
 
@@ -215,14 +215,14 @@ def compra(ativo,valor_entrada,direcao,exp,tipo):
             nivel_soros = 0
             lucro_op_atual = 0
 
-### Fução que busca hora da corretora ###
+### Fucion que busca hora correta ###
 def horario():
     x = API.get_server_timestamp()
     now = datetime.fromtimestamp(API.get_server_timestamp())
     
     return now
 
-### Função de análise MHI   
+### Funcion de análisid MHI   
 def estrategia_mhi():
     global tipo
 
@@ -244,10 +244,10 @@ def estrategia_mhi():
     while True:
         time.sleep(0.1)
 
-        ### Horario do computador ###
+        ### Horario de computador ###
         #minutos = float(datetime.now().strftime('%M.%S')[1:])
 
-        ### horario da iqoption ###
+        ### horario de iqoption ###
         minutos = float(datetime.fromtimestamp(API.get_server_timestamp()).strftime('%M.%S')[1:])
 
         entrar = True if (minutos >= 4.59 and minutos <= 5.00) or minutos >= 9.59 else False
@@ -288,7 +288,7 @@ def estrategia_mhi():
 
             print('\n######################################################################\n')
 
-### DEFININCãO INPUTS NO INICIO DO ROBÔ ###
+### DEFININCION INPUTS DE INICIO DE ROBOT ###
 
 ativo = input('\n>> Digite o ativo que você deseja operar: ').upper()
 
@@ -307,5 +307,5 @@ print('\nStop loss:',cifrao,'-',stop_loss)
 print('\n######################################################################\n\n')
 
 
-### chamada da estrategia mhi ###
+### llamada de estrategia mhi ###
 estrategia_mhi()
